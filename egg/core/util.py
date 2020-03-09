@@ -46,7 +46,7 @@ def _populate_cl_params(arg_parser: argparse.ArgumentParser) -> argparse.Argumen
 
     # optimizer
     arg_parser.add_argument('--optimizer', type=str, default='adam',
-                        help='Optimizer to use [adam, sgd, adagrad] (default: adam)')
+                        help='Optimizer to use [adam, sgd, adagrad, rmsprop] (default: adam)')
     arg_parser.add_argument('--lr', type=float, default=1e-2,
                         help='Learning rate (default: 1e-2)')
 
@@ -93,7 +93,7 @@ def init(arg_parser:Optional[argparse.ArgumentParser] = None, params:Optional[Li
 
     if arg_parser is None:
         arg_parser = argparse.ArgumentParser()
-    arg_parser = _populate_cl_params(arg_parser)
+        arg_parser = _populate_cl_params(arg_parser)
 
     if params is None:
         params = sys.argv[1:]
@@ -105,7 +105,8 @@ def init(arg_parser:Optional[argparse.ArgumentParser] = None, params:Optional[Li
 
     optimizers = {'adam': torch.optim.Adam,
                  'sgd': torch.optim.SGD,
-                 'adagrad': torch.optim.Adagrad}
+                 'adagrad': torch.optim.Adagrad,
+                 'rmsprop': torch.optim.RMSprop}
     if common_opts.optimizer in optimizers:
         optimizer = optimizers[common_opts.optimizer]
     else:
